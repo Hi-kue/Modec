@@ -20,14 +20,14 @@ const connectDB = async() => {
             password: process.env.ORACLE_DB_PASSWORD,
             connectionString: process.env.ORACLE_DB_CONNECTION_STRING,
         });
-        showMessage('Connected to Oracle DB', constants.SUCCESS.TYPE, constants.SUCCESS.STATUS);
+        showMessage('Connected to Oracle DB', constants.SUCCESS.TYPE, constants.SUCCESS.CODE);
         
-        const result = await connection.execute('SELECT * FROM EMPLOYEE');
+        const result = await connection.execute('SELECT * FROM DH_CLIENT');
         
         console.log(table(result.rows));
 
     } catch(err) {
-        showMessage(err.message, constants.ERROR.TYPE, constants.ERROR.STATUS);
+        showMessage(err.message, constants.ERROR.TYPE, constants.ERROR.CODE);
     } 
 }
 
