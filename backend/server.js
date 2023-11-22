@@ -1,14 +1,17 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import process from 'process';
+import bodyParser from 'body-parser';
+
 import showMessage from './util/dialogInvoker.js';
 import constants from './util/constants.js';
-import connectDB from './config/config.js';
 
 const app = express();
 dotenv.config();
 
-connectDB();
+
+app.use(bodyParser.urlencoded({ extended: true}));
+app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
     res.send('Welcome to Dream Home Application API.');
