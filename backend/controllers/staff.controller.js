@@ -9,7 +9,7 @@ import { table } from 'table';
  * @param {*} err The error being thrown.
  */
 const errorMessage = (res, err) => {
-    showMessage(res, constants.ERROR.TYPE, constants.ERROR.CODE);
+    showMessage(err, constants.ERROR.TYPE, constants.ERROR.CODE);
     res.status(400).json({ message: `Querying Failed`, error: err });   
 }
 
@@ -36,7 +36,7 @@ const createStaff = async (req, res) => {
 
     try {
         const newStaff = await connection.execute(
-            "EXEC STAFF_HIRE_SP (:1, :2, :3, :4, :5, :6, :7, :8, :9);",
+            "EXEC STAFF_HIRE_SP (:1, :2, :3, :4, :5, :6, :7, :8, :9)",
             [staff_fname, staff_lname, staff_position, staff_dob, staff_salary, staff_branchno, staff_telephone, staff_mobile, staff_email],
             { autoCommit: true, outFormat: connection.OUT_FORMAT_OBJECT }
         );
@@ -57,7 +57,7 @@ const createStaff = async (req, res) => {
  */
 const getAllStaff = async (req, res) => {
     try {
-        const allStaff = await connection.execute("SELECT * FROM DH_STAFF;", [], { outFormat: connection.OUT_FORMAT_OBJECT });
+        const allStaff = await connection.execute("SELECT * FROM DH_STAFF", [], { outFormat: connection.OUT_FORMAT_OBJECT });
 
         showMessage(res, constants.SUCCESS.TYPE, constants.SUCCESS.CODE);
         res.status(200).json({ message: `Querying Successful`, data: allStaff });
@@ -78,7 +78,7 @@ const getStaffById = async (req, res) => {
 
     try {
         const staff = await connection.execute(
-            "SELECT * FROM DH_STAFF WHERE STAFFNO = :1;", 
+            "SELECT * FROM DH_STAFF WHERE STAFFNO = :1", 
             [staff_staffno], 
             { outFormat: connection.OUT_FORMAT_OBJECT }
         );
@@ -103,7 +103,7 @@ const getStaffByName = async (req, res) => {
     try {
 
         const staff = await connection.execute(
-            "SELECT * FROM DH_STAFF WHERE FNAME = :1 AND LNAME = :2;",
+            "SELECT * FROM DH_STAFF WHERE FNAME = :1 AND LNAME = :2",
             [staff_fname, staff_lname],
             { outFormat: connection.OUT_FORMAT_OBJECT }
         );
@@ -127,7 +127,7 @@ const updateStaffById = async (req, res) => {
 
     try {
         const staff = await connection.execute(
-            "UPDATE DH_STAFF SET SALARY = :1, PHONE = :2, EMAIL = :3 WHERE STAFFNO = :4;",
+            "UPDATE DH_STAFF SET SALARY = :1, PHONE = :2, EMAIL = :3 WHERE STAFFNO = :4",
             [salary, phone, email, id],
             { outFormat: connection.OUT_FORMAT_OBJECT }
         );
@@ -151,7 +151,7 @@ const updateStaffByName = async (req, res) => {
 
     try {
         const staff = await connection.execute(
-            "UPDATE DH_STAFF SET SALARY = :1, PHONE = :2, EMAIL = :3, WHERE FNAME = :4;",
+            "UPDATE DH_STAFF SET SALARY = :1, PHONE = :2, EMAIL = :3, WHERE FNAME = :4",
             [staff_salary, staff_phone, staff_email, staff_fname],
             { outFormat: connection.OUT_FORMAT_OBJECT }
         );
@@ -175,7 +175,7 @@ const deleteStaffById = async (req, res) => {
 
     try {
         const deleteStaff = await connection.execute(
-            "DELETE FROM DH_STAFF WHERE STAFFNO = :1;",
+            "DELETE FROM DH_STAFF WHERE STAFFNO = :1",
             [staff_staffno],
             { outFormat: connection.OUT_FORMAT_OBJECT }
         );
