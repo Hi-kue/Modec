@@ -23,4 +23,13 @@ const successMessage = (res , data) => {
     res.status(200).json({ message: `Querying Successful`, data: data })
 }
 
+const getAllBranch = (res, req) => {
+
+}
+
+const getBranchByName = (res, req) => {
+
+}
+
+
 
